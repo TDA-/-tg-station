@@ -11,6 +11,7 @@
 /obj/item/bodybag/attack_self(mob/user)
 		var/obj/structure/closet/body_bag/R = new unfoldedbag_path(user.loc)
 		R.add_fingerprint(user)
+		R.contents = src.contents
 		qdel(src)
 
 
@@ -38,6 +39,7 @@
 	icon_closed = "bodybag_closed"
 	icon_opened = "bodybag_open"
 	var/foldedbag_path = /obj/item/bodybag
+	var/foldable = 0
 	density = 0
 	mob_storage_capacity = 2
 
@@ -76,11 +78,12 @@
 			return 0
 		if(opened)
 			return 0
-		if(contents.len)
+		if(contents.len && foldable != 1)
 			return 0
 		visible_message("<span class='notice'>[usr] folds up [src].</span>")
 		var/obj/item/bodybag/B = new foldedbag_path(get_turf(src))
 		usr.put_in_hands(B)
+		B.contents = src.contents
 		qdel(src)
 
 
@@ -112,3 +115,4 @@
 	density = 0
 	mob_storage_capacity = 15
 	max_mob_size = 2
+	foldable = 1
