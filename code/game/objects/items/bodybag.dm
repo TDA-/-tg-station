@@ -84,6 +84,8 @@
 		var/obj/item/bodybag/B = new foldedbag_path(get_turf(src))
 		usr.put_in_hands(B)
 		B.contents = src.contents
+		if(B.contents)
+			B.w_class = 3
 		qdel(src)
 
 
@@ -104,6 +106,11 @@
 	unfoldedbag_path = /obj/structure/closet/body_bag/bluespace
 	w_class = 2
 
+/obj/item/bodybag/bluespace/dropped(mob/user as mob)
+	if(!contents.len)
+		return
+	attack_self(user)
+
 /obj/structure/closet/body_bag/bluespace
 	name = "bluespace body bag"
 	desc = "A bluespace body bag designed for the storage and transportation of cadavers."
@@ -114,9 +121,5 @@
 	foldedbag_path = /obj/item/bodybag/bluespace
 	density = 0
 	mob_storage_capacity = 15
-<<<<<<< HEAD
 	max_mob_size = 2
 	foldable = 1
-=======
-	max_mob_size = MOB_SIZE_LARGE
->>>>>>> master
